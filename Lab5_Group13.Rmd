@@ -16,14 +16,30 @@ fontsize: 12pt
 
 ```{r}
 library(plotly)
+library(crosstalk)
+library(tidyverse)
 ```
 
 
 ###1. Scatter Plot
-```{r}
+```{r ques1}
+
 olivedata<-read.csv("olive.csv")
+olivedata$Region<-as.factor(olivedata$Region)
+
+d<-SharedData$new(olivedata)
+sct<-d %>% plot_ly(x=~linoleic,y=~eicosenoic,type="scatter") %>% layout(xaxis=list(title="Linoleic"),yaxis=list(title="Eicosenoic"))
+```
 
 
-olivedata %>% plot_ly(olivedata,x=~eicosenoic,y=~linoleic) + geom_point() 
+
+###2. Link Scatter to Bar
+```{r ques2}
+
+barplt<-plot_ly(d,x=~Region,type="histogram") %>% layout(bargap=0.01,barmode="overlay") 
+
+subplt<-subplot(sct,barplt) %>% highlight(on="plotly_select",dynamic=T,persistent = T,opacityDim = I(1))%>%hide_legend()
+
+bscols(widths=c(2,NA), filter_slider("se","Stearic",d,~stearic),subplt)
 ```
 
