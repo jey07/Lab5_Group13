@@ -1,0 +1,29 @@
+---
+title: "Lab5_Group13"
+author: "Prudhvi Pedmallu  (prepu690) , Naveen Gabriel (navga709)"
+date: "5 October 2018"
+output:
+  html_document:
+    code_folding: hide
+fontsize: 12pt
+---
+
+<br>
+
+<br>
+
+#Assignment 2
+
+```{r}
+library(plotly)
+```
+
+
+###1. Scatter Plot
+```{r}
+olivedata<-read.csv("olive.csv")
+
+
+olivedata %>% plot_ly(olivedata,x=~eicosenoic,y=~linoleic) + geom_point() 
+```
+
